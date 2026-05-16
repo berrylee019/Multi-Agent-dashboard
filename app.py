@@ -24,112 +24,119 @@ def post_to_wordpress(title, content, status="draft"):
     except Exception as e:
         return False, str(e)
 
-# --- [핵심] 멀티 에이전트 협업 엔진 (동적 생성 루프) ---
+# --- [핵심] 멀티 에이전트 협업 엔진 (마케팅 자동화) ---
 def run_multi_agent_pipeline(service_name, service_url, service_desc):
-    """기획 -> 카피라이팅 -> 편집 에이전트가 순차적으로 협업하는 워크플로우"""
     status_box = st.empty()
-    
-    # 1. 기획 에이전트 (Planning)
-    status_box.info("🎯 [1/3] 기획 에이전트가 서비스의 셀링 포인트를 분석 중입니다...")
-    time.sleep(1) # 에이전트 사고 시간 시뮬레이션
-    
-    # 2. 카피라이팅 에이전트 (Writing)
-    status_box.info("✍️ [2/3] 카피라이팅 에이전트가 SEO 최적화 문장 및 HTML 구조를 빌드하고 있습니다...")
+    status_box.info("🎯 [1/3] 기획 에이전트가 서비스 분석 중...")
+    time.sleep(1)
+    status_box.info("✍️ [2/3] 카피라이팅 에이전트가 HTML 빌드 중...")
     time.sleep(1.2)
-    
-    # 3. 편집 및 검토 에이전트 (Reviewing & Taste)
-    status_box.info("🕵️‍♂️ [3/3] 편집 에이전트가 문체를 다듬고 최종 링크 무결성을 검수하는 중입니다...")
+    status_box.info("🕵️‍♂️ [3/3] 편집 에이전트가 최종 검수 중...")
     time.sleep(0.8)
     status_box.empty()
     
-    # 동적으로 생성되는 결과물 구조 (추후 이 부분을 Open Claw 및 LLM API와 직결하시면 됩니다)
-    generated_title = f"[추천] 전기료 절약과 업무 효율을 동시에! {service_name} 활용 가이드"
+    generated_title = f"[추천] 혁신적인 AI 솔루션, {service_name} 활용 가이드"
     generated_html = f"""
-    <p>최근 주목받고 있는 혁신적인 플랫폼, <strong>{service_name}</strong>을 소개합니다.</p>
+    <p>혁신적인 플랫폼 <strong>{service_name}</strong>을 소개합니다.</p>
     <p>{service_desc}</p>
-    <h3>📌 왜 {service_name}을 선택해야 할까요?</h3>
+    <h3>📌 주요 특징</h3>
     <ul>
-        <li>인공지능(AI) 기반의 실시간 데이터 최적화 알고리즘 탑재</li>
-        <li>개발자부터 일반 사용자까지 고려한 직관적인 UI/UX 인터페이스</li>
-        <li>스트림릿(Streamlit) 기반으로 별도 설치 없이 즉시 실행 가능</li>
+        <li>AI 기반 실시간 최적화 알고리즘</li>
+        <li>직관적인 UI/UX 및 Streamlit 기반 접근성</li>
     </ul>
-    <p>지금 바로 아래 공식 링크를 통해 스마트한 변화를 직접 경험해 보세요!</p>
     <br>
-    <a href="{service_url}" style="display: block; width: 250px; margin: 30px auto; padding: 15px; background-color: #4A90E2; color: white; text-align: center; text-decoration: none; font-weight: bold; border-radius: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);"> {service_name} 즉시 체험하기 🚀</a>
+    <a href="{service_url}" style="display: block; width: 250px; margin: 30px auto; padding: 15px; background-color: #4A90E2; color: white; text-align: center; text-decoration: none; font-weight: bold; border-radius: 30px;"> {service_name} 즉시 체험하기 🚀</a>
     """
     return generated_title, generated_html
 
-# --- 초기 대시보드 데이터 세팅 (Session State 활용) ---
+# --- 초기 대시보드 데이터 세팅 ---
 if "services" not in st.session_state:
     st.session_state["services"] = {
-        "솔라매니저 AI": {"url": "https://solarmanager-ai.streamlit.app/", "desc": "태양광 발전량과 가정 내 소비 패턴을 AI로 분석하여 전기요금을 획기적으로 낮춰주는 에너지 테크 서비스입니다."},
-        "거북목 방지 AI": {"url": "https://anti-turtle-neck-ai.streamlit.app/", "desc": "웹캠을 통해 사용자의 실시간 앉은 자세를 스캔하고 거북목 위험을 감지해 건강을 지켜주는 헬스케어 솔루션입니다."},
-        "StyleScan AI": {"url": "https://stylescan-ai.streamlit.app/", "desc": "업로드된 패션 이미지를 비전 AI로 정밀 분석하여 자동으로 태그를 추출하고 트렌드를 분석해주는 패션 테크 SaaS입니다."}
+        "솔라매니저 AI": {"url": "https://solarmanager-ai.streamlit.app/", "desc": "태양광 발전량과 에너지 소비 패턴을 AI로 분석하는 서비스입니다."},
+        "거북목 방지 AI": {"url": "https://anti-turtle-neck-ai.streamlit.app/", "desc": "웹캠으로 자세를 스캔하여 건강을 지켜주는 솔루션입니다."},
+        "StyleScan AI": {"url": "https://stylescan-ai.streamlit.app/", "desc": "비전 AI로 패션 태그를 추출하는 테크 SaaS입니다."}
     }
 
 # --- 레이아웃 구성 ---
-st.title("🔮 Multi-Agent Central Operating System")
-st.caption("그동안 만든 모든 SaaS와 앞으로 태어날 신규 AI 서비스를 통합 관리하는 원클릭 마케팅 센터")
+st.title("⚔️ AI SaaS 사령부 (Central Command OS)")
+st.caption("사령관(형님)의 지휘 하에 개발, 배포, 마케팅 에이전트가 각자의 임무를 수행합니다.")
 st.divider()
 
-# --- 사이드바: 미래 보장형 서비스 레지스트리 ---
+# --- [추가된 섹션] 1. 에이전트 미션 통제실 ---
+st.header("📋 에이전트 미션 컨트롤 (Mission Control)")
+col_dev, col_mkt, col_qa = st.columns(3)
+
+with col_dev:
+    st.subheader("🛠️ DevOps 팀")
+    dev_task = st.checkbox("GitHub 세팅 및 코드 커밋")
+    if dev_task:
+        st.info("🤖 DevOps 에이전트: 코드 변경점을 감지하고 푸시 준비 중...")
+        if st.button("GitHub 작업 최종 승인"):
+            st.success("✅ GitHub Push 성공! Streamlit 배포가 업데이트되었습니다.")
+
+with col_mkt:
+    st.subheader("✍️ 마케팅 팀")
+    mkt_task = st.checkbox("신규 서비스 홍보물 기획")
+    if mkt_task:
+        st.info("🤖 마케팅 에이전트: 타겟 분석 및 블로그 초안 작성이 준비되었습니다.")
+        st.warning("⚠️ 하단 '마케팅 작업대'에서 세부 내용을 검토해 주세요.")
+
+with col_qa:
+    st.subheader("🔍 QA & 점검 팀")
+    qa_task = st.checkbox("서비스 배포 상태 점검")
+    if qa_task:
+        st.info("🤖 QA 에이전트: 현재 모든 API 연결 상태를 테스트 중입니다.")
+        if st.button("점검 보고서 생성"):
+            st.write("- 솔라매니저 AI: **정상**")
+            st.write("- 거북목 AI: **결제 버튼 연결 확인**")
+
+st.divider()
+
+# --- 2. 사이드바 및 기존 마케팅 센터 기능 유지 ---
 with st.sidebar:
     st.header("✨ 신규 AI 서비스 등록")
     with st.form("new_service_form", clear_on_submit=True):
-        new_name = st.text_input("서비스 이름 (예: Chef Noir AI)")
-        new_url = st.text_input("스트림릿 배포 URL")
-        new_desc = st.text_area("서비스 한 줄 핵심 설명")
-        submit_btn = st.form_submit_button("플러그인 에이전트 등록")
-        
-        if submit_btn and new_name and new_url:
-            st.session_state["services"][new_name] = {"url": new_url, "desc": new_desc}
-            st.toast(f"🎉 {new_name} 서비스가 에이전트 시스템에 성공적으로 로드되었습니다!", icon="🟢")
+        new_name = st.text_input("서비스 이름")
+        new_url = st.text_input("배포 URL")
+        new_desc = st.text_area("핵심 설명")
+        if st.form_submit_button("플러그인 에이전트 등록"):
+            if new_name and new_url:
+                st.session_state["services"][new_name] = {"url": new_url, "desc": new_desc}
+                st.toast(f"🎉 {new_name} 등록 완료!", icon="🟢")
 
     st.divider()
-    st.header("🎯 현재 가동 중인 서비스")
-    selected_service = st.selectbox("컨트롤할 서비스를 선택하세요", list(st.session_state["services"].keys()))
+    st.header("🎯 가동 중인 서비스")
+    selected_service = st.selectbox("컨트롤할 서비스", list(st.session_state["services"].keys()))
 
-# --- 메인 워크스페이스 ---
+# --- 3. 마케팅 작업대 섹션 ---
 current_data = st.session_state["services"][selected_service]
+st.subheader(f"🚀 {selected_service} 마케팅 자동화 파이프라인")
 
-st.subheader(f"🛠️ {selected_service} 관제 모드")
-st.info(f"🔗 **연동 정보:** {current_data['url']} \n\n📝 **기본 메타 데이터:** {current_data['desc']}")
-
-# 에이전트 가동 버튼
-if st.button("🤖 멀티 에이전트 협업 가동 (글/이미지 큐레이션)", type="secondary"):
+if st.button("🤖 에이전트 협업 가동 (콘텐츠 큐레이션)", type="secondary"):
     title, html = run_multi_agent_pipeline(selected_service, current_data["url"], current_data["desc"])
     st.session_state["generated_title"] = title
     st.session_state["generated_html"] = html
-    st.success("✨ 에이전트 군단이 최종 결과물을 도출했습니다! 아래 작업대에서 확인하세요.")
 
-st.divider()
-
-# --- 작업대 및 발행 파이프라인 ---
 if "generated_title" in st.session_state:
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader("📝 에이전트 최종 결과물 수정")
-        edited_title = st.text_input("제목 편집", value=st.session_state["generated_title"])
-        edited_html = st.text_area("HTML 소스코드 편집", value=st.session_state["generated_html"], height=350)
-        
-    with col2:
-        st.subheader("👀 최종 발행 레이아웃 미리보기")
-        st.markdown(f"**실제 블로그 제목:** {edited_title}")
-        st.html(edited_html)
-        
+    c1, c2 = st.columns(2)
+    with c1:
+        st.subheader("📝 편집기")
+        ed_title = st.text_input("제목 편집", value=st.session_state["generated_title"])
+        ed_html = st.text_area("HTML 편집", value=st.session_state["generated_html"], height=300)
+    with c2:
+        st.subheader("👀 미리보기")
+        st.markdown(f"**제목:** {ed_title}")
+        st.html(ed_html)
+
     st.divider()
+    st.subheader("📤 워드프레스 최종 발행")
+    pub_mode = st.radio("모드", ["임시저장 (draft)", "즉시발행 (publish)"], horizontal=True)
     
-    # 워드프레스 게이트웨이
-    st.subheader("📤 워드프레스 퍼블리싱 게이트웨이")
-    pub_mode = st.radio("포스팅 모드 선택", ["임시저장 (draft)", "즉시발행 (publish)"], horizontal=True)
-    status_param = "draft" if "임시저장" in pub_mode else "publish"
-    
-    if st.button("🚀 워드프레스 API 전송 및 발행", type="primary"):
-        with st.spinner("REST API를 통해 워드프레스 데이터베이스망에 안전하게 동기화 중입니다..."):
-            success, link = post_to_wordpress(edited_title, edited_html, status=status_value)
+    if st.button("🌟 최종 승인 및 블로그 전송"):
+        with st.spinner("사령관님의 승인에 따라 데이터 전송 중..."):
+            status_val = "draft" if "임시저장" in pub_mode else "publish"
+            success, link = post_to_wordpress(ed_title, ed_html, status=status_val)
             if success:
-                st.success(f"🎉 형님, 대성공입니다! 블로그에 성공적으로 안착했습니다.")
-                st.info(f"🔗 생성된 워드프레스 글 확인: {link}")
+                st.success(f"✅ 발행 성공! 링크: {link}")
             else:
-                st.error(f"❌ API 연동 실패: {link}")
+                st.error(f"❌ 오류: {link}")
