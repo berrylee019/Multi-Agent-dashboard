@@ -79,7 +79,7 @@ with st.sidebar:
         new_name = st.text_input("서비스 이름 (예: Chef Noir AI)")
         new_url = st.text_input("스트림릿 배포 URL")
         new_desc = st.text_area("서비스 한 줄 핵심 설명")
-        submit_btn = st.form_submit_with_button("플러그인 에이전트 등록")
+        submit_btn = st.form_submit_button("플러그인 에이전트 등록")
         
         if submit_btn and new_name and new_url:
             st.session_state["services"][new_name] = {"url": new_url, "desc": new_desc}
