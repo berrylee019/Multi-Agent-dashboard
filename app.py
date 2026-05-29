@@ -103,6 +103,11 @@ with st.sidebar:
             if new_name and new_url:
                 st.session_state["services"][new_name] = {"url": new_url, "desc": new_desc}
                 st.toast(f"🎉 {new_name} 등록 완료!", icon="🟢")
+                
+    # 📝 형님이 요청하신 [Edit on GitHub] 버튼 추가 구역
+    # 주소창의 '형님의계정명'과 '저장소이름'을 실제 깃허브 주소에 맞게 적어주시면 됩니다.
+    github_edit_url = "https://github.com/berrylee019/Multi-Agent-dashboard/edit/main/app.py"
+    st.link_button("⚙️ Edit on GitHub", github_edit_url, use_container_width=True)
 
     st.divider()
     st.header("🎯 가동 중인 서비스")
@@ -129,7 +134,7 @@ if "generated_title" in st.session_state:
         st.html(ed_html)
 
     st.divider()
-    st.subheader("📤 워드프레스 최종 발행")
+    st.header("📤 워드프레스 최종 발행")
     pub_mode = st.radio("모드", ["임시저장 (draft)", "즉시발행 (publish)"], horizontal=True)
     
     if st.button("🌟 최종 승인 및 블로그 전송"):
